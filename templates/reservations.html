@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Reservations</h2>
+
+<section class="form-section">
+    <h3>Add Reservation</h3>
+    <form method="POST" action="{{ url_for('reservations') }}">
+        <label>Reservation ID</label>
+        <input type="number" name="res_id" required>
+
+        <label>Customer</label>
+        <select name="customer_id" required>
+            {% for customer in customers %}
+            <option value="{{ customer.CUSTOMER_ID }}">
+                {{ customer.CUSTOMER_ID }} - {{ customer.FIRSTNAME }} {{ customer.LASTNAME }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <label>Table</label>
+        <select name="table_id" required>
+            {% for table in tables %}
+            <option value="{{ table.TABLE_ID }}">
+                Table {{ table.TABLENUM }} (Capacity: {{ table.CAPACITY }})
+            </option>
+            {% endfor %}
+        </select>
+
+        <label>Start Time</label>
+        <input type="datetime-local" name="start_time" required>
+
+        <label>End Time</label>
+        <input type="datetime-local" name="end_time" required>
+
+        <label>Party Size</label>
+        <input type="number" name="party_size" min="1" required>
+
+        <label>Status</label>
+        <select name="status" required>
+            <option value="booked">booked</option>
+            <option value="completed">completed</option>
+            <option value="cancelled">cancelled</option>
+        </select>
+
+        <button type="submit">Add Reservation</button>
+    </form>
+</section>
+
+<section class="table-section">
+    <h3>Reservation List</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Customer</th>
+                <th>Table</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Party Size</th>
+                <th>Status</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reservation in reservations %}
+            <tr>
+                <td>{{ reservation.RES_ID }}</td>
+                <td>{{ reservation.CUSTOMER_ID }} - {{ reservation.FIRSTNAME }} {{ reservation.LASTNAME }}</td>
+                <td>{{ reservation.TABLE_ID }} - Table {{ reservation.TABLENUM }}</td>
+                <td>{{ reservation.START_TIME }}</td>
+                <td>{{ reservation.END_TIME }}</td>
+                <td>{{ reservation.PARTY_SIZE }}</td>
+                <td>{{ reservation.STATUS }}</td>
+                <td>
+                    <a href="{{ url_for('update_reservation', res_id=reservation.RES_ID) }}">Update</a>
+                </td>
+                <td>
+                    <form method="POST" action="{{ url_for('delete_reservation', res_id=reservation.RES_ID) }}">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="9">No reservations found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

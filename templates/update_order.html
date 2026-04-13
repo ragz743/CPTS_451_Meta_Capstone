@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Update Order</h2>
+
+{% if order %}
+<section class="form-section">
+    <form method="POST">
+        <label>Order ID</label>
+        <input type="number" value="{{ order.ORDER_ID }}" disabled>
+
+        <label>Customer</label>
+        <select name="customer_id" required>
+            {% for customer in customers %}
+            <option value="{{ customer.CUSTOMER_ID }}"
+                {% if customer.CUSTOMER_ID == order.CUSTOMER_ID %}selected{% endif %}>
+                {{ customer.CUSTOMER_ID }} - {{ customer.FIRSTNAME }} {{ customer.LASTNAME }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <label>Order Date</label>
+        <input type="datetime-local" name="order_date" value="{{ order.ORDER_DATE_STR }}" required>
+
+        <label>Total Amount</label>
+        <input type="number" step="0.01" name="total_amount" min="0" value="{{ order.TOTALAMOUNT }}" required>
+
+        <label>Status</label>
+        <select name="status" required>
+            <option value="open" {% if order.STATUS == 'open' %}selected{% endif %}>open</option>
+            <option value="paid" {% if order.STATUS == 'paid' %}selected{% endif %}>paid</option>
+            <option value="cancelled" {% if order.STATUS == 'cancelled' %}selected{% endif %}>cancelled</option>
+        </select>
+
+        <button type="submit">Save Changes</button>
+    </form>
+</section>
+{% else %}
+<p>Order not found.</p>
+{% endif %}
+{% endblock %}

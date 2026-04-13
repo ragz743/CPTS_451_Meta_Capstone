@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Update Payment</h2>
+
+{% if payment %}
+<section class="form-section">
+    <form method="POST">
+        <label>Payment ID</label>
+        <input type="number" value="{{ payment.PAYMENT_ID }}" disabled>
+
+        <label>Order</label>
+        <select name="order_id" required>
+            {% for order in orders %}
+            <option value="{{ order.ORDER_ID }}"
+                {% if order.ORDER_ID == payment.ORDER_ID %}selected{% endif %}>
+                Order {{ order.ORDER_ID }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <label>Payment Method</label>
+        <select name="payment_method" required>
+            <option value="Cash" {% if payment.PAYMENTMETHOD == 'Cash' %}selected{% endif %}>Cash</option>
+            <option value="Credit Card" {% if payment.PAYMENTMETHOD == 'Credit Card' %}selected{% endif %}>Credit Card</option>
+            <option value="Debit Card" {% if payment.PAYMENTMETHOD == 'Debit Card' %}selected{% endif %}>Debit Card</option>
+        </select>
+
+        <label>Tax Amount</label>
+        <input type="number" step="0.01" name="tax_amount" min="0" value="{{ payment.TAXAMOUNT }}" required>
+
+        <label>Total Paid</label>
+        <input type="number" step="0.01" name="total_paid" min="0" value="{{ payment.TOTALPAID }}" required>
+
+        <label>Payment Date</label>
+        <input type="datetime-local" name="payment_date" value="{{ payment.PAYMENTDATE_STR }}" required>
+
+        <button type="submit">Save Changes</button>
+    </form>
+</section>
+{% else %}
+<p>Payment not found.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Reports</h2>
+
+<section class="table-section">
+    <h3>Sales by Day</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Day</th>
+                <th>Payments</th>
+                <th>Total Revenue</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in sales_by_day %}
+            <tr>
+                <td>{{ row.SALES_DAY }}</td>
+                <td>{{ row.NUM_PAYMENTS }}</td>
+                <td>{{ row.TOTAL_REVENUE }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="3">No sales data found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+
+<section class="table-section">
+    <h3>Popular Menu Items</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Menu Item ID</th>
+                <th>Item Name</th>
+                <th>Total Quantity Sold</th>
+                <th>Total Item Revenue</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in popular_items %}
+            <tr>
+                <td>{{ row.MENUITEM_ID }}</td>
+                <td>{{ row.ITEMNAME }}</td>
+                <td>{{ row.TOTAL_QUANTITY_SOLD }}</td>
+                <td>{{ row.TOTAL_ITEM_REVENUE }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4">No menu item sales data found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+
+<section class="table-section">
+    <h3>Reservations by Status</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Status</th>
+                <th>Reservation Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in reservations_by_status %}
+            <tr>
+                <td>{{ row.STATUS }}</td>
+                <td>{{ row.RESERVATION_COUNT }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="2">No reservation summary found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+
+<section class="table-section">
+    <h3>Top Customers by Spending</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Customer ID</th>
+                <th>Name</th>
+                <th>Total Orders</th>
+                <th>Total Spent</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in top_customers %}
+            <tr>
+                <td>{{ row.CUSTOMER_ID }}</td>
+                <td>{{ row.FIRSTNAME }} {{ row.LASTNAME }}</td>
+                <td>{{ row.TOTAL_ORDERS }}</td>
+                <td>{{ row.TOTAL_SPENT }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4">No customer spending data found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+
+<section class="table-section">
+    <h3>Orders Without Payments</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Total Amount</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in unpaid_orders %}
+            <tr>
+                <td>{{ row.ORDER_ID }}</td>
+                <td>{{ row.FIRSTNAME }} {{ row.LASTNAME }}</td>
+                <td>{{ row.TOTALAMOUNT }}</td>
+                <td>{{ row.STATUS }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4">No unpaid orders found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

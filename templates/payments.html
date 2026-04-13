@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Payments</h2>
+
+<section class="form-section">
+    <h3>Add Payment</h3>
+    <form method="POST" action="{{ url_for('payments') }}">
+        <label>Payment ID</label>
+        <input type="number" name="payment_id" required>
+
+        <label>Order</label>
+        <select name="order_id" required>
+            {% for order in unpaid_orders %}
+            <option value="{{ order.ORDER_ID }}">
+                Order {{ order.ORDER_ID }} - {{ order.FIRSTNAME }} {{ order.LASTNAME }} (Subtotal: {{ order.TOTALAMOUNT }})
+            </option>
+            {% endfor %}
+        </select>
+
+        <label>Payment Method</label>
+        <select name="payment_method" required>
+            <option value="Cash">Cash</option>
+            <option value="Credit Card">Credit Card</option>
+            <option value="Debit Card">Debit Card</option>
+        </select>
+
+        <label>Tax Amount</label>
+        <input type="number" step="0.01" name="tax_amount" min="0" required>
+
+        <label>Total Paid</label>
+        <input type="number" step="0.01" name="total_paid" min="0" required>
+
+        <label>Payment Date</label>
+        <input type="datetime-local" name="payment_date" required>
+
+        <button type="submit">Add Payment</button>
+    </form>
+</section>
+
+<section class="table-section">
+    <h3>Payment List</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Order</th>
+                <th>Customer</th>
+                <th>Method</th>
+                <th>Tax</th>
+                <th>Total Paid</th>
+                <th>Date</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for payment in payments %}
+            <tr>
+                <td>{{ payment.PAYMENT_ID }}</td>
+                <td>{{ payment.ORDER_ID }}</td>
+                <td>{{ payment.FIRSTNAME }} {{ payment.LASTNAME }}</td>
+                <td>{{ payment.PAYMENTMETHOD }}</td>
+                <td>{{ payment.TAXAMOUNT }}</td>
+                <td>{{ payment.TOTALPAID }}</td>
+                <td>{{ payment.PAYMENTDATE }}</td>
+                <td>
+                    <a href="{{ url_for('update_payment', payment_id=payment.PAYMENT_ID) }}">Update</a>
+                </td>
+                <td>
+                    <form method="POST" action="{{ url_for('delete_payment', payment_id=payment.PAYMENT_ID) }}">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="9">No payments found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

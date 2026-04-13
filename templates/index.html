@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Home</h2>
+<p>This is the Little Lemon database demo UI for Sprint 2.</p>
+
+<div class="card-grid">
+    <div class="card">
+        <h3>Customers</h3>
+        <p>Add, view, and delete customer records.</p>
+        <a href="{{ url_for('customers') }}">Open Customers</a>
+    </div>
+
+    <div class="card">
+        <h3>Reservations</h3>
+        <p>Manage bookings and test reservation validation.</p>
+        <a href="{{ url_for('reservations') }}">Open Reservations</a>
+    </div>
+
+    <div class="card">
+        <h3>Orders</h3>
+        <p>Create orders and manage items.</p>
+        <a href="{{ url_for('orders') }}">Open Orders</a>
+    </div>
+
+    <div class="card">
+        <h3>Payments</h3>
+        <p>Record payments and review totals.</p>
+        <a href="{{ url_for('payments') }}">Open Payments</a>
+    </div>
+
+    <div class="card">
+        <h3>Reports</h3>
+        <p>Run advanced SQL queries and display results.</p>
+        <a href="{{ url_for('reports') }}">Open Reports</a>
+    </div>
+</div>
+{% endblock %}

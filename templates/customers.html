@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Customers</h2>
+
+<section class="form-section">
+    <h3>Add Customer</h3>
+    <form method="POST" action="{{ url_for('customers') }}">
+        <label>Customer ID</label>
+        <input type="number" name="customer_id" required>
+
+        <label>First Name</label>
+        <input type="text" name="first_name" required>
+
+        <label>Last Name</label>
+        <input type="text" name="last_name" required>
+
+        <label>Phone Number</label>
+        <input type="text" name="phone_num" required>
+
+        <label>Email</label>
+        <input type="email" name="email">
+
+        <button type="submit">Add Customer</button>
+    </form>
+</section>
+
+<section class="table-section">
+    <h3>Customer List</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First</th>
+                <th>Last</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for customer in customers %}
+            <tr>
+                <td>{{ customer.CUSTOMER_ID }}</td>
+                <td>{{ customer.FIRSTNAME }}</td>
+                <td>{{ customer.LASTNAME }}</td>
+                <td>{{ customer.PHONENUM }}</td>
+                <td>{{ customer.EMAIL }}</td>
+                <td>
+                    <form method="POST" action="{{ url_for('delete_customer', customer_id=customer.CUSTOMER_ID) }}">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6">No customers found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}
